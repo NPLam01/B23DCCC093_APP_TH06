@@ -1,0 +1,17 @@
+export const Colors = {
+  background: '#080D16',
+  surface: '#111A29',
+  surfaceLight: '#182438',
+  primary: '#168BFF',
+  primaryPressed: '#0D6ED1',
+  textMain: '#E7EDF7',
+  textSecondary: '#8996AA',
+  border: '#263449',
+  online: '#22C55E',
+  offline: '#6B7280',
+  error: '#EF4444',
+  white: '#FFFFFF',
+  transparent: 'transparent',
+  card: '#131D2E',
+  mapPin: '#EA4335',
+};
