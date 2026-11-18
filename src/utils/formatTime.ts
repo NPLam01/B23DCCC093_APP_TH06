@@ -34,3 +34,18 @@ export const formatNotificationTime = (ts: number): string => {
   const d = new Date(ts);
   return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`;
 };
+
+export const formatLastSeen = (ts?: number): string => {
+  if (!ts) return 'Ngoại tuyến';
+  const now = Date.now();
+  const diff = now - ts;
+  const min = 60 * 1000;
+  const hr = 60 * min;
+  const day = 24 * hr;
+
+  if (diff < min) return 'Vừa mới hoạt động';
+  if (diff < hr) return `Hoạt động ${Math.floor(diff / min)} phút trước`;
+  if (diff < day) return `Hoạt động ${Math.floor(diff / hr)} giờ trước`;
+  const d = new Date(ts);
+  return `Hoạt động ngày ${d.getDate()}/${d.getMonth() + 1}`;
+};

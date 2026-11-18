@@ -18,6 +18,8 @@ import Avatar from '../components/Avatar';
 import AppInput from '../components/AppInput';
 import { formatConversationTime } from '../utils/formatTime';
 import { UserConversationItem } from '../types';
+import { leaveGroupConversation } from '../services/groupService';
+import { Alert } from 'react-native';
 
 type Props = TabScreenProps<'Home'>;
 
@@ -28,40 +30,102 @@ export default function HomeScreen({ navigation }: Props) {
   );
 
   const handleOpenChat = (item: UserConversationItem) => {
-    if (!item.otherUser) return;
-    navigation.navigate('Chat', {
-      chatId: item.chatId,
-      otherUser: item.otherUser,
-    });
+    if (item.type === 'group') {
+      navigation.navigate('Chat', {
+        chatId: item.chatId,
+        isGroup: true,
+        groupName: item.name || 'Nhóm chat',
+      });
+    } else if (item.otherUser) {
+      navigation.navigate('Chat', {
+        chatId: item.chatId,
+        otherUser: item.otherUser,
+      });
+    }
+  };
+
+  const handleLongPressConversation = (item: UserConversationItem) => {
+    if (item.type !== 'group' || !currentUser?.uid) return;
+    const groupTitle = item.name || 'Nhóm chat';
+    Alert.alert(groupTitle, 'Tùy chọn cuộc trò chuyện', [
+      { text: 'Hủy', style: 'cancel' },
+      {
+        text: 'Rời nhóm',
+        style: 'destructive',
+        onPress: () => {
+          Alert.alert(
+            'Xác nhận rời nhóm',
+            `Bạn có chắc chắn muốn rời khỏi nhóm "${groupTitle}" không?`,
+            [
+              { text: 'Hủy', style: 'cancel' },
+              {
+                text: 'Rời nhóm',
+                style: 'destructive',
+                onPress: async () => {
+                  try {
+                    await leaveGroupConversation(
+                      item.chatId,
+                      currentUser.uid,
+                      currentUser.name || 'Người dùng',
+                    );
+                    Alert.alert('Thành công', `Bạn đã rời khỏi nhóm "${groupTitle}".`);
+                  } catch (e) {
+                    Alert.alert('Lỗi', 'Không thể rời nhóm lúc này.');
+                  }
+                },
+              },
+            ],
+          );
+        },
+      },
+    ]);
+  };
+
+  const handleCreateGroup = () => {
+    navigation.navigate('CreateGroup');
   };
 
   const renderItem = ({ item }: { item: UserConversationItem }) => {
+    const isGroup = item.type === 'group';
     const otherUser = item.otherUser;
-    if (!otherUser) return null;
 
-    const isOnline = otherUser.status?.state === 'online';
+    // Nếu là chat 1-1 mà chưa load được otherUser thì bỏ qua
+    if (!isGroup && !otherUser) return null;
+
+    const isOnline = !isGroup && otherUser?.status?.state === 'online';
     const unread = item.unreadCount || 0;
+    const title = isGroup ? item.name || 'Nhóm chat' : otherUser?.name || 'Trò chuyện';
 
     return (
       <TouchableOpacity
         style={styles.chatItem}
         onPress={() => handleOpenChat(item)}
+        onLongPress={() => handleLongPressConversation(item)}
+        delayLongPress={400}
         activeOpacity={0.75}>
-        <Avatar
-          name={otherUser.name}
-          size={52}
-          showOnline
-          isOnline={isOnline}
-        />
+        {isGroup ? (
+          <View style={styles.groupAvatarCircle}>
+            <AntDesign name="team" size={24} color={Colors.white} />
+          </View>
+        ) : (
+          <Avatar
+            name={otherUser?.name}
+            size={52}
+            showOnline
+            isOnline={isOnline}
+          />
+        )}
+
         <View style={styles.chatInfo}>
           <View style={styles.chatHeaderRow}>
             <Text style={styles.userName} numberOfLines={1}>
-              {otherUser.name}
+              {title}
             </Text>
             <Text style={styles.timeText}>
               {formatConversationTime(item.lastMessageAt)}
             </Text>
           </View>
+
           <View style={styles.chatMessageRow}>
             <Text
               style={[
@@ -69,7 +133,7 @@ export default function HomeScreen({ navigation }: Props) {
                 unread > 0 ? styles.lastMessageUnread : null,
               ]}
               numberOfLines={1}>
-              {item.lastMessageText || 'Bắt đầu trò chuyện'}
+              {item.lastMessageText || 'Bắt đầu cuộc trò chuyện'}
             </Text>
             {unread > 0 && (
               <View style={styles.unreadBadge}>
@@ -87,14 +151,29 @@ export default function HomeScreen({ navigation }: Props) {
   return (
     <SafeAreaView style={styles.safe}>
       <StatusBar barStyle="light-content" />
+
+      {/* Top Header */}
       <View style={styles.header}>
-        <Text style={styles.appName}>BlueTalk</Text>
-        <Text style={styles.title}>Tin nhắn</Text>
+        <View>
+          <Text style={styles.appName}>BlueTalk</Text>
+          <Text style={styles.title}>Tin nhắn</Text>
+        </View>
+
+        {/* Nút Tạo nhóm mới */}
+        <TouchableOpacity
+          style={styles.createGroupBtn}
+          onPress={handleCreateGroup}
+          activeOpacity={0.8}
+          accessibilityLabel="Tạo nhóm mới">
+          <AntDesign name="plus" size={16} color={Colors.white} />
+          <Text style={styles.createGroupBtnText}>Tạo nhóm</Text>
+        </TouchableOpacity>
       </View>
 
+      {/* Search Input */}
       <View style={styles.searchContainer}>
         <AppInput
-          placeholder="Tìm kiếm theo tên hoặc email..."
+          placeholder="Tìm kiếm tin nhắn, nhóm hoặc bạn bè..."
           value={searchQuery}
           onChangeText={setSearchQuery}
           autoCapitalize="none"
@@ -103,6 +182,7 @@ export default function HomeScreen({ navigation }: Props) {
         />
       </View>
 
+      {/* List Conversations */}
       {isLoading ? (
         <View style={styles.center}>
           <ActivityIndicator size="large" color={Colors.primary} />
@@ -121,8 +201,8 @@ export default function HomeScreen({ navigation }: Props) {
               </Text>
               <Text style={styles.emptySubtitle}>
                 {searchQuery
-                  ? 'Thử tìm với tên hoặc email khác'
-                  : 'Hãy vào tab Danh bạ và chọn một người để bắt đầu nhắn tin!'}
+                  ? 'Thử tìm với từ khóa khác'
+                  : 'Hãy vào tab Danh bạ hoặc bấm Tạo nhóm để bắt đầu nhắn tin realtime!'}
               </Text>
             </View>
           }
@@ -139,6 +219,9 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.background,
   },
   header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     paddingHorizontal: 16,
     paddingTop: 12,
     paddingBottom: 4,
@@ -156,6 +239,20 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginTop: 2,
   },
+  createGroupBtn: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: Colors.primary,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+    borderRadius: 20,
+    gap: 6,
+  },
+  createGroupBtnText: {
+    color: Colors.white,
+    fontSize: 13,
+    fontWeight: '600',
+  },
   searchContainer: {
     paddingHorizontal: 16,
     paddingVertical: 10,
@@ -166,6 +263,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
     backgroundColor: Colors.background,
+  },
+  groupAvatarCircle: {
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: Colors.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   chatInfo: {
     flex: 1,

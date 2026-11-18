@@ -20,8 +20,11 @@ export type RootStackParamList = {
   Main: NavigatorScreenParams<MainTabParamList>;
   Chat: {
     chatId: string;
-    otherUser: UserProfile;
+    otherUser?: UserProfile;
+    isGroup?: boolean;
+    groupName?: string;
   };
+  CreateGroup: undefined;
 };
 
 export type AuthScreenProps<T extends keyof AuthStackParamList> = NativeStackScreenProps<

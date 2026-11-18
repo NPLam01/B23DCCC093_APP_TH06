@@ -1,97 +1,221 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
-# Getting Started
+## 🔥 Hướng dẫn cấu hình Firebase
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+### Bước 1: Tạo project Firebase
+1. Truy cập [Firebase Console](https://console.firebase.google.com/) và đăng nhập bằng tài khoản Google.
+2. Nhấn **Add project** (Tạo dự án mới), nhập tên dự án (ví dụ: `chatapp-28b1a`), tắt/bật Google Analytics tùy ý và nhấn **Create project**.
 
-## Step 1: Start Metro
+### Bước 2: Bật Firebase Authentication
+1. Tại menu bên trái, vào **Build** ➜ **Authentication** ➜ Chọn **Get started**.
+2. Tại tab **Sign-in method**, nhấp chọn **Email/Password**.
+3. Bật công tắc **Enable** ở mục đầu tiên (Email/Password), sau đó nhấn **Save**.
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+### Bước 3: Tạo Firebase Realtime Database
+1. Tại menu bên trái, vào **Build** ➜ **Realtime Database** ➜ Chọn **Create Database**.
+2. Chọn vị trí lưu trữ máy chủ: Khuyên dùng **Singapore (`asia-southeast1`)** để đạt tốc độ cao nhất tại Việt Nam.
+3. Chọn chế độ bảo mật khởi tạo: **Start in locked mode** rồi nhấn **Enable**.
+4. Ghi lại URL của Realtime Database (ví dụ: `https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app`).
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+### Bước 4: Thiết lập Security Rules cho Realtime Database
+1. Trong mục **Realtime Database**, chọn tab **Rules**.
+2. Sao chép toàn bộ nội dung từ tệp [`database.rules.json`](database.rules.json) trong dự án và dán vào:
 
-```sh
-# Using npm
-npm start
+```json
+{
+  "rules": {
+    "users": {
+      ".read": "auth != null",
+      "$uid": {
+        ".write": "auth != null && auth.uid === $uid"
+      }
+    },
+    "conversations": {
+      ".read": "auth != null",
+      "$convId": {
+        ".write": "auth != null"
+      }
+    },
+    "messages": {
+      "$convId": {
+        ".read": "auth != null",
+        "$msgId": {
+          ".write": "auth != null && (!data.exists() || (newData.child('recalled').val() === true ? data.child('senderId').val() === auth.uid : true))",
+          "reactions": {
+            "$uid": {
+              ".write": "auth != null && auth.uid === $uid"
+            }
+          }
+        }
+      }
+    },
+    "userConversations": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        "$convId": {
+          ".write": "auth != null"
+        }
+      }
+    },
+    "userChats": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        "$convId": {
+          ".write": "auth != null"
+        }
+      }
+    },
+    "readStatus": {
+      "$convId": {
+        ".read": "auth != null",
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid"
+        }
+      }
+    },
+    "typing": {
+      "$convId": {
+        ".read": "auth != null",
+        "$uid": {
+          ".write": "auth != null && auth.uid === $uid"
+        }
+      }
+    },
+    "notifications": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        "$notifId": {
+          ".write": "auth != null"
+        }
+      }
+    }
+  }
+}
+```
+3. Nhấn **Publish** để áp dụng.
 
-# OR using Yarn
-yarn start
+> **Ghi chú**: Nếu bạn đã cài đặt Firebase CLI trên máy tính, bạn chỉ cần chạy lệnh sau để triển khai luật tự động:
+> ```bash
+> npx firebase-tools deploy --only database --project <TÊN_PROJECT_CỦA_BẠN>
+> ```
+
+### Bước 5: Lấy thông số cấu hình Web App vào dự án
+1. Vào **Project Settings** (biểu tượng bánh răng ⚙️ ở góc trên bên trái) ➜ Tab **General**.
+2. Cuộn xuống phần **Your apps**, chọn biểu tượng Web **`</>`**.
+3. Đặt tên gợi nhớ cho ứng dụng web (ví dụ: `bluetalk-web`) và nhấn **Register app**.
+4. Sao chép đối tượng `firebaseConfig` được hiển thị.
+5. Mở tệp [`src/services/firebase.ts`](src/services/firebase.ts) trong dự án và thay thế bằng các giá trị thực tế của bạn:
+
+```typescript
+const firebaseConfig = {
+  apiKey: "AIzaSy...",
+  authDomain: "chatapp-28b1a.firebaseapp.com",
+  databaseURL: "https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "chatapp-28b1a",
+  storageBucket: "chatapp-28b1a.firebasestorage.app",
+  messagingSenderId: "840558334655",
+  appId: "1:840558334655:web:...",
+};
 ```
 
-## Step 2: Build and run your app
+---
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+## ☁️ Hướng dẫn cấu hình Cloudinary
 
-### Android
+Đề bài yêu cầu: *Tải lên Cloudinary bằng **unsigned upload preset** và không đưa API Secret vào mã nguồn client*.
 
-```sh
-# Using npm
-npm run android
+### Bước 1: Đăng ký tài khoản Cloudinary
+1. Truy cập [cloudinary.com](https://cloudinary.com/) và đăng ký 1 tài khoản miễn phí (hỗ trợ đăng nhập nhanh bằng Google/GitHub).
+2. Sau khi đăng nhập, hệ thống sẽ đưa bạn vào trang **Dashboard**.
 
-# OR using Yarn
-yarn android
+### Bước 2: Lấy Cloud Name
+- Tại đầu trang **Dashboard** (hoặc góc trên bên trái thanh điều hướng), tìm và sao chép mục **Cloud name** (ví dụ: `dxyz12345` hoặc `chatapp-demo`).
+
+### Bước 3: Tạo Unsigned Upload Preset
+1. Nhấp vào biểu tượng **Cài đặt (⚙️)** ở góc dưới bên trái màn hình.
+2. Chọn tab **Upload** trong menu cài đặt.
+3. Cuộn xuống phần **Upload presets**:
+   - Nếu thấy tùy chọn **Enable unsigned uploading**, hãy bật nó lên.
+   - Nhấn vào nút **Add upload preset**.
+4. Thiết lập thông số:
+   - **Upload preset name**: Nhập tên preset bạn muốn (ví dụ: `th6_chat` hoặc để mặc định).
+   - **Signing Mode**: **BẮT BUỘC chọn `Unsigned`** *(Nếu để Signed, Cloudinary sẽ từ chối và báo lỗi `Unknown API key`)*.
+   - *(Tùy chọn)*: Trong mục **Folder**, bạn có thể nhập `chat_images` để gom ảnh vào 1 thư mục riêng.
+5. Nhấn **Save** ở góc trên bên phải để lưu.
+
+### Bước 4: Cập nhật thông số vào dự án
+Mở tệp [`src/services/uploadService.ts`](src/services/uploadService.ts) (dòng 13) và điền 2 giá trị bạn vừa tạo:
+
+```typescript
+export const CLOUDINARY_CONFIG = {
+  cloudName: 'TÊN_CLOUD_NAME_CỦA_BẠN',       // Ví dụ: 'dxyz12345'
+  uploadPreset: 'TÊN_UPLOAD_PRESET_CỦA_BẠN', // Ví dụ: 'th6_chat'
+};
 ```
 
-### iOS
+---
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+## 🚀 Cài đặt & Khởi chạy ứng dụng
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+### Yêu cầu môi trường
+- **Node.js**: Phiên bản $\ge$ 18.x
+- **JDK**: OpenJDK 17
+- **Android Studio**: Android SDK Platform 34 hoặc 35, Android SDK Build-Tools, Android Emulator
+- **Cấu hình biến môi trường**: Đã cài đặt `ANDROID_HOME` và thêm `platform-tools` vào PATH
 
-```sh
-bundle install
-```
+### Các bước khởi chạy
 
-Then, and every time you update your native dependencies, run:
+1. **Cài đặt thư viện:**
+   ```bash
+   npm install
+   ```
 
-```sh
-bundle exec pod install
-```
+2. **Chạy kiểm thử unit test & kiểm tra TypeScript:**
+   ```bash
+   # Kiểm tra lỗi type
+   npx tsc --noEmit
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+   # Chạy Jest test suites (7/7 passed)
+   npm test
+   ```
 
-```sh
-# Using npm
-npm run ios
+3. **Mở máy ảo Android:**
+   - Mở Android Studio ➜ Device Manager ➜ Start máy ảo Android (Pixel, API 33-35).
 
-# OR using Yarn
-yarn ios
-```
+4. **Khởi động Metro Bundler:**
+   ```bash
+   npm start
+   ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+5. **Biên dịch và chạy ứng dụng lên thiết bị Android:**
+   Mở một cửa sổ dòng lệnh mới và chạy:
+   ```bash
+   npm run android
+   ```
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+---
 
-## Step 3: Modify your app
 
-Now that you have successfully run the app, let's make changes!
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+## 🛠️ Xử lý lỗi thường gặp (Troubleshooting)
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+### 1. Lỗi `PERMISSION_DENIED: Permission denied`
+- **Nguyên nhân**: Realtime Database trên Firebase Console chưa cập nhật Security Rules đầy đủ cho các node mới (`messages`, `typing`, `readStatus`, `notifications`, `userConversations`).
+- **Cách khắc phục**: Vào Firebase Console ➜ Realtime Database ➜ Rules ➜ Dán nội dung trong tệp [`database.rules.json`](database.rules.json) và nhấn **Publish**.
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+### 2. Lỗi `Upload image failed: Error: Unknown API key`
+- **Nguyên nhân**:
+  1. `cloudName` hoặc `uploadPreset` trong `uploadService.ts` chưa được thay bằng tài khoản Cloudinary thực tế của bạn.
+  2. Upload Preset trên Cloudinary Console đang để chế độ **Signed** thay vì **Unsigned**.
+- **Cách khắc phục**: Vào Cloudinary ➜ Settings ➜ Upload ➜ Upload presets ➜ Chỉnh sửa preset và chọn **Signing Mode = Unsigned** ➜ Lưu lại và cập nhật vào [`src/services/uploadService.ts`](src/services/uploadService.ts).
 
-## Congratulations! :tada:
+### 3. Đăng ký tài khoản bị xoay tròn không vào được
+- **Nguyên nhân**: Trước đây tệp `src/services/firebase.ts` có lệnh kết nối Auth Emulator `10.0.2.2:9099` trong khi máy tính không chạy emulator cục bộ.
+- **Cách khắc phục**: Dự án hiện tại đã kết nối trực tiếp lên dịch vụ Firebase đám mây chính thức, đảm bảo máy tính và máy ảo có kết nối mạng Internet.
 
-You've successfully run and modified your React Native App. :partying_face:
+### 4. Không mở được bản đồ vị trí Google Maps
+- **Nguyên nhân**: Android 11+ (API 30+) yêu cầu khai báo bộ lọc Package Visibility `<queries>` trong `AndroidManifest.xml` để cho phép `Linking.canOpenURL`.
+- **Cách khắc phục**: Dự án đã cấu hình sẵn các thẻ intent `https` và `geo` trong `android/app/src/main/AndroidManifest.xml`, tự động mở ứng dụng Google Maps hoặc trình duyệt khi bấm vào tin nhắn vị trí.
 
-### Now what?
+---
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+*Chúc các bạn hoàn thành xuất sắc Bài Thực Hành! 🚀*

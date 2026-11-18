@@ -42,3 +42,141 @@ Before we get started, keep in mind:
     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
 [error] 
 [error] Error: Failed to get Firebase project th5-1d909. Please make sure the project exists and your account has permission to access it.
+[debug] [2026-11-18T05:17:43.479Z] ----------------------------------------------------------------------
+[debug] [2026-11-18T05:17:43.482Z] Command:       F:\Microsoft VS Code\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js database:get /
+[debug] [2026-11-18T05:17:43.482Z] CLI Version:   15.14.0
+[debug] [2026-11-18T05:17:43.482Z] Platform:      win32
+[debug] [2026-11-18T05:17:43.482Z] Node Version:  v24.19.0
+[debug] [2026-11-18T05:17:43.482Z] Time:          Wed Nov 18 2026 12:17:43 GMT+0700 (Indochina Time)
+[debug] [2026-11-18T05:17:43.482Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-11-18T05:17:43.484Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2026-11-18T05:17:47.888Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-11-18T05:17:47.889Z] > authorizing via signed-in user (npcgod1st@gmail.com)
+[debug] [2026-11-18T05:17:47.889Z] [iam] checking project th5-1d909 for permissions ["firebase.projects.get","firebasedatabase.instances.get"]
+[debug] [2026-11-18T05:17:47.890Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:17:47.891Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:17:47.891Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/th5-1d909:testIamPermissions [none]
+[debug] [2026-11-18T05:17:47.891Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/th5-1d909:testIamPermissions  x-goog-user-project=th5-1d909
+[debug] [2026-11-18T05:17:47.891Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/th5-1d909:testIamPermissions {"permissions":["firebase.projects.get","firebasedatabase.instances.get"]}
+[debug] [2026-11-18T05:17:48.363Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/th5-1d909:testIamPermissions 400
+[debug] [2026-11-18T05:17:48.363Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/th5-1d909:testIamPermissions {"error":{"code":400,"message":"Project 'projects/th5-1d909' not found or deleted.","status":"INVALID_ARGUMENT","details":[{"@type":"type.googleapis.com/google.rpc.ErrorInfo","reason":"USER_PROJECT_DENIED","domain":"googleapis.com","metadata":{"consumer":"projects/th5-1d909","service":"cloudresourcemanager.googleapis.com","containerInfo":"projects/th5-1d909"}}]}}
+[debug] [2026-11-18T05:17:48.364Z] [iam] error while checking permissions, command may fail: Request to https://cloudresourcemanager.googleapis.com/v1/projects/th5-1d909:testIamPermissions had HTTP Error: 400, Project 'projects/th5-1d909' not found or deleted.
+[debug] [2026-11-18T05:17:48.364Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:17:48.364Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:17:48.365Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/th5-1d909 [none]
+[debug] [2026-11-18T05:17:48.488Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2026-11-18T05:17:48.488Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[debug] [2026-11-18T05:17:49.146Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/th5-1d909 403
+[debug] [2026-11-18T05:17:49.146Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/th5-1d909 {"error":{"code":403,"message":"The caller does not have permission","status":"PERMISSION_DENIED"}}
+[debug] [2026-11-18T05:17:49.147Z] Request to https://firebase.googleapis.com/v1beta1/projects/th5-1d909 had HTTP Error: 403, The caller does not have permission
+[debug] [2026-11-18T05:17:49.149Z] FirebaseError: Failed to get Firebase project th5-1d909. Please make sure the project exists and your account has permission to access it.
+    at getFirebaseProject (C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\management\projects.js:384:15)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+    at async getDefaultDatabaseInstance (C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\getDefaultDatabaseInstance.js:6:28)
+    at async Object.requireDatabaseInstance [as fn] (C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\requireDatabaseInstance.js:15:20)
+    at async C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\command.js:277:17
+[error] 
+[error] Error: Failed to get details for project: th5-1d909.
+[debug] [2026-11-18T05:18:54.573Z] ----------------------------------------------------------------------
+[debug] [2026-11-18T05:18:54.576Z] Command:       F:\Microsoft VS Code\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only database --project chatapp-28b1a
+[debug] [2026-11-18T05:18:54.577Z] CLI Version:   15.14.0
+[debug] [2026-11-18T05:18:54.577Z] Platform:      win32
+[debug] [2026-11-18T05:18:54.577Z] Node Version:  v24.19.0
+[debug] [2026-11-18T05:18:54.577Z] Time:          Wed Nov 18 2026 12:18:54 GMT+0700 (Indochina Time)
+[debug] [2026-11-18T05:18:54.577Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-11-18T05:18:56.565Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-11-18T05:18:56.566Z] > authorizing via signed-in user (npcgod1st@gmail.com)
+[debug] [2026-11-18T05:18:56.566Z] [iam] checking project chatapp-28b1a for permissions ["firebase.projects.get","firebasedatabase.instances.update"]
+[debug] [2026-11-18T05:18:56.567Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:18:56.567Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:18:56.567Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/chatapp-28b1a:testIamPermissions [none]
+[debug] [2026-11-18T05:18:56.567Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/chatapp-28b1a:testIamPermissions  x-goog-user-project=chatapp-28b1a
+[debug] [2026-11-18T05:18:56.568Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/chatapp-28b1a:testIamPermissions {"permissions":["firebase.projects.get","firebasedatabase.instances.update"]}
+[debug] [2026-11-18T05:18:57.700Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/chatapp-28b1a:testIamPermissions 200
+[debug] [2026-11-18T05:18:57.700Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/chatapp-28b1a:testIamPermissions {"permissions":["firebase.projects.get","firebasedatabase.instances.update"]}
+[debug] [2026-11-18T05:18:57.700Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:18:57.701Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:18:57.701Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/chatapp-28b1a [none]
+[debug] [2026-11-18T05:18:58.099Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/chatapp-28b1a 200
+[debug] [2026-11-18T05:18:58.099Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/chatapp-28b1a {"projectId":"chatapp-28b1a","projectNumber":"840558334655","displayName":"CHATAPP","name":"projects/chatapp-28b1a","resources":{"hostingSite":"chatapp-28b1a","realtimeDatabaseInstance":"chatapp-28b1a-default-rtdb"},"state":"ACTIVE","labels":{"firebase":"enabled"},"etag":"1_b5e89937-5136-4d61-955b-e95a9d097dea"}
+[info] 
+[info] === Deploying to 'chatapp-28b1a'...
+[info] 
+[info] i  deploying database 
+[info] i  database: checking rules syntax... 
+[debug] [2026-11-18T05:18:58.101Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:18:58.102Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:18:58.102Z] >>> [apiv2][query] GET https://firebasedatabase.googleapis.com/v1beta/projects/chatapp-28b1a/locations/-/instances/chatapp-28b1a-default-rtdb [none]
+[debug] [2026-11-18T05:18:59.401Z] <<< [apiv2][status] GET https://firebasedatabase.googleapis.com/v1beta/projects/chatapp-28b1a/locations/-/instances/chatapp-28b1a-default-rtdb 200
+[debug] [2026-11-18T05:18:59.401Z] <<< [apiv2][body] GET https://firebasedatabase.googleapis.com/v1beta/projects/chatapp-28b1a/locations/-/instances/chatapp-28b1a-default-rtdb {"name":"projects/840558334655/locations/asia-southeast1/instances/chatapp-28b1a-default-rtdb","project":"projects/840558334655","databaseUrl":"https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app","type":"DEFAULT_DATABASE","state":"ACTIVE"}
+[debug] [2026-11-18T05:18:59.402Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:18:59.402Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:18:59.402Z] >>> [apiv2][query] PUT https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app/.settings/rules.json dryRun=true
+[debug] [2026-11-18T05:18:59.402Z] >>> [apiv2][body] PUT https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app/.settings/rules.json "{\n  \"rules\": {\n    \"users\": {\n      \".read\": \"auth != null\",\n      \"$uid\": {\n        \".write\": \"auth != null && auth.uid === $uid\"\n      }\n    },\n    \"conversations\": {\n      \".read\": \"auth != null\",\n      \"$convId\": {\n        \".write\": \"auth != null\"\n      }\n    },\n    \"messages\": {\n      \"$convId\": {\n        \".read\": \"auth != null\",\n        \"$msgId\": {\n          \".write\": \"auth != null && (!data.exists() || (newData.child('recalled').val() === true ? data.child('senderId').val() === auth.uid : true))\",\n          \"reactions\": {\n            \"$uid\": {\n              \".write\": \"auth != null && auth.uid === $uid\"\n            }\n          }\n        }\n      }\n    },\n    \"userConversations\": {\n      \"$uid\": {\n        \".read\": \"auth != null && auth.uid === $uid\",\n        \"$convId\": {\n          \".write\": \"auth != null\"\n        }\n      }\n    },\n    \"readStatus\": {\n      \"$convId\": {\n        \".read\": \"auth != null\",\n        \"$uid\": {\n          \".write\": \"auth != null && auth.uid === $uid\"\n        }\n      }\n    },\n    \"typing\": {\n      \"$convId\": {\n        \".read\": \"auth != null\",\n        \"$uid\": {\n          \".write\": \"auth != null && auth.uid === $uid\"\n        }\n      }\n    },\n    \"notifications\": {\n      \"$uid\": {\n        \".read\": \"auth != null && auth.uid === $uid\",\n        \"$notifId\": {\n          \".write\": \"auth != null\"\n        }\n      }\n    }\n  }\n}\n"
+[debug] [2026-11-18T05:18:59.640Z] <<< [apiv2][status] PUT https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app/.settings/rules.json 200
+[debug] [2026-11-18T05:18:59.640Z] <<< [apiv2][body] PUT https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app/.settings/rules.json {"status":"ok"}
+[info] +  database: rules syntax for database chatapp-28b1a-default-rtdb is valid 
+[info] i  database: releasing rules... 
+[debug] [2026-11-18T05:18:59.641Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:18:59.641Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:18:59.641Z] >>> [apiv2][query] GET https://firebasedatabase.googleapis.com/v1beta/projects/chatapp-28b1a/locations/-/instances/chatapp-28b1a-default-rtdb [none]
+[debug] [2026-11-18T05:18:59.955Z] <<< [apiv2][status] GET https://firebasedatabase.googleapis.com/v1beta/projects/chatapp-28b1a/locations/-/instances/chatapp-28b1a-default-rtdb 200
+[debug] [2026-11-18T05:18:59.955Z] <<< [apiv2][body] GET https://firebasedatabase.googleapis.com/v1beta/projects/chatapp-28b1a/locations/-/instances/chatapp-28b1a-default-rtdb {"name":"projects/840558334655/locations/asia-southeast1/instances/chatapp-28b1a-default-rtdb","project":"projects/840558334655","databaseUrl":"https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app","type":"DEFAULT_DATABASE","state":"ACTIVE"}
+[debug] [2026-11-18T05:18:59.956Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:18:59.956Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:18:59.956Z] >>> [apiv2][query] PUT https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app/.settings/rules.json 
+[debug] [2026-11-18T05:18:59.956Z] >>> [apiv2][body] PUT https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app/.settings/rules.json "{\n  \"rules\": {\n    \"users\": {\n      \".read\": \"auth != null\",\n      \"$uid\": {\n        \".write\": \"auth != null && auth.uid === $uid\"\n      }\n    },\n    \"conversations\": {\n      \".read\": \"auth != null\",\n      \"$convId\": {\n        \".write\": \"auth != null\"\n      }\n    },\n    \"messages\": {\n      \"$convId\": {\n        \".read\": \"auth != null\",\n        \"$msgId\": {\n          \".write\": \"auth != null && (!data.exists() || (newData.child('recalled').val() === true ? data.child('senderId').val() === auth.uid : true))\",\n          \"reactions\": {\n            \"$uid\": {\n              \".write\": \"auth != null && auth.uid === $uid\"\n            }\n          }\n        }\n      }\n    },\n    \"userConversations\": {\n      \"$uid\": {\n        \".read\": \"auth != null && auth.uid === $uid\",\n        \"$convId\": {\n          \".write\": \"auth != null\"\n        }\n      }\n    },\n    \"readStatus\": {\n      \"$convId\": {\n        \".read\": \"auth != null\",\n        \"$uid\": {\n          \".write\": \"auth != null && auth.uid === $uid\"\n        }\n      }\n    },\n    \"typing\": {\n      \"$convId\": {\n        \".read\": \"auth != null\",\n        \"$uid\": {\n          \".write\": \"auth != null && auth.uid === $uid\"\n        }\n      }\n    },\n    \"notifications\": {\n      \"$uid\": {\n        \".read\": \"auth != null && auth.uid === $uid\",\n        \"$notifId\": {\n          \".write\": \"auth != null\"\n        }\n      }\n    }\n  }\n}\n"
+[debug] [2026-11-18T05:19:00.329Z] <<< [apiv2][status] PUT https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app/.settings/rules.json 200
+[debug] [2026-11-18T05:21:01.509Z] ----------------------------------------------------------------------
+[debug] [2026-11-18T05:21:01.512Z] Command:       F:\Microsoft VS Code\node.exe C:\Users\Lenovo\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy --only database --project chatapp-28b1a
+[debug] [2026-11-18T05:21:01.512Z] CLI Version:   15.14.0
+[debug] [2026-11-18T05:21:01.512Z] Platform:      win32
+[debug] [2026-11-18T05:21:01.512Z] Node Version:  v24.19.0
+[debug] [2026-11-18T05:21:01.513Z] Time:          Wed Nov 18 2026 12:21:01 GMT+0700 (Indochina Time)
+[debug] [2026-11-18T05:21:01.513Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-11-18T05:21:03.008Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-11-18T05:21:03.009Z] > authorizing via signed-in user (npcgod1st@gmail.com)
+[debug] [2026-11-18T05:21:03.009Z] [iam] checking project chatapp-28b1a for permissions ["firebase.projects.get","firebasedatabase.instances.update"]
+[debug] [2026-11-18T05:21:03.010Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:21:03.010Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:21:03.011Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/chatapp-28b1a:testIamPermissions [none]
+[debug] [2026-11-18T05:21:03.011Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/chatapp-28b1a:testIamPermissions  x-goog-user-project=chatapp-28b1a
+[debug] [2026-11-18T05:21:03.012Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/chatapp-28b1a:testIamPermissions {"permissions":["firebase.projects.get","firebasedatabase.instances.update"]}
+[debug] [2026-11-18T05:21:04.400Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/chatapp-28b1a:testIamPermissions 200
+[debug] [2026-11-18T05:21:04.400Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/chatapp-28b1a:testIamPermissions {"permissions":["firebase.projects.get","firebasedatabase.instances.update"]}
+[debug] [2026-11-18T05:21:04.401Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:21:04.401Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:21:04.401Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/chatapp-28b1a [none]
+[debug] [2026-11-18T05:21:04.803Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/chatapp-28b1a 200
+[debug] [2026-11-18T05:21:04.803Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/chatapp-28b1a {"projectId":"chatapp-28b1a","projectNumber":"840558334655","displayName":"CHATAPP","name":"projects/chatapp-28b1a","resources":{"hostingSite":"chatapp-28b1a","realtimeDatabaseInstance":"chatapp-28b1a-default-rtdb"},"state":"ACTIVE","labels":{"firebase":"enabled"},"etag":"1_b5e89937-5136-4d61-955b-e95a9d097dea"}
+[info] 
+[info] === Deploying to 'chatapp-28b1a'...
+[info] 
+[info] i  deploying database 
+[info] i  database: checking rules syntax... 
+[debug] [2026-11-18T05:21:04.808Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:21:04.809Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:21:04.809Z] >>> [apiv2][query] GET https://firebasedatabase.googleapis.com/v1beta/projects/chatapp-28b1a/locations/-/instances/chatapp-28b1a-default-rtdb [none]
+[debug] [2026-11-18T05:21:06.208Z] <<< [apiv2][status] GET https://firebasedatabase.googleapis.com/v1beta/projects/chatapp-28b1a/locations/-/instances/chatapp-28b1a-default-rtdb 200
+[debug] [2026-11-18T05:21:06.208Z] <<< [apiv2][body] GET https://firebasedatabase.googleapis.com/v1beta/projects/chatapp-28b1a/locations/-/instances/chatapp-28b1a-default-rtdb {"name":"projects/840558334655/locations/asia-southeast1/instances/chatapp-28b1a-default-rtdb","project":"projects/840558334655","databaseUrl":"https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app","type":"DEFAULT_DATABASE","state":"ACTIVE"}
+[debug] [2026-11-18T05:21:06.209Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:21:06.209Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:21:06.209Z] >>> [apiv2][query] PUT https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app/.settings/rules.json dryRun=true
+[debug] [2026-11-18T05:21:06.209Z] >>> [apiv2][body] PUT https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app/.settings/rules.json "{\n  \"rules\": {\n    \"users\": {\n      \".read\": \"auth != null\",\n      \"$uid\": {\n        \".write\": \"auth != null && auth.uid === $uid\"\n      }\n    },\n    \"conversations\": {\n      \".read\": \"auth != null\",\n      \"$convId\": {\n        \".write\": \"auth != null\"\n      }\n    },\n    \"messages\": {\n      \"$convId\": {\n        \".read\": \"auth != null\",\n        \"$msgId\": {\n          \".write\": \"auth != null && (!data.exists() || (newData.child('recalled').val() === true ? data.child('senderId').val() === auth.uid : true))\",\n          \"reactions\": {\n            \"$uid\": {\n              \".write\": \"auth != null && auth.uid === $uid\"\n            }\n          }\n        }\n      }\n    },\n    \"userConversations\": {\n      \"$uid\": {\n        \".read\": \"auth != null && auth.uid === $uid\",\n        \"$convId\": {\n          \".write\": \"auth != null\"\n        }\n      }\n    },\n    \"userChats\": {\n      \"$uid\": {\n        \".read\": \"auth != null && auth.uid === $uid\",\n        \"$convId\": {\n          \".write\": \"auth != null\"\n        }\n      }\n    },\n    \"readStatus\": {\n      \"$convId\": {\n        \".read\": \"auth != null\",\n        \"$uid\": {\n          \".write\": \"auth != null && auth.uid === $uid\"\n        }\n      }\n    },\n    \"typing\": {\n      \"$convId\": {\n        \".read\": \"auth != null\",\n        \"$uid\": {\n          \".write\": \"auth != null && auth.uid === $uid\"\n        }\n      }\n    },\n    \"notifications\": {\n      \"$uid\": {\n        \".read\": \"auth != null && auth.uid === $uid\",\n        \"$notifId\": {\n          \".write\": \"auth != null\"\n        }\n      }\n    }\n  }\n}\n"
+[debug] [2026-11-18T05:21:06.414Z] <<< [apiv2][status] PUT https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app/.settings/rules.json 200
+[debug] [2026-11-18T05:21:06.415Z] <<< [apiv2][body] PUT https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app/.settings/rules.json {"status":"ok"}
+[info] +  database: rules syntax for database chatapp-28b1a-default-rtdb is valid 
+[info] i  database: releasing rules... 
+[debug] [2026-11-18T05:21:06.416Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:21:06.417Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:21:06.417Z] >>> [apiv2][query] GET https://firebasedatabase.googleapis.com/v1beta/projects/chatapp-28b1a/locations/-/instances/chatapp-28b1a-default-rtdb [none]
+[debug] [2026-11-18T05:21:06.768Z] <<< [apiv2][status] GET https://firebasedatabase.googleapis.com/v1beta/projects/chatapp-28b1a/locations/-/instances/chatapp-28b1a-default-rtdb 200
+[debug] [2026-11-18T05:21:06.768Z] <<< [apiv2][body] GET https://firebasedatabase.googleapis.com/v1beta/projects/chatapp-28b1a/locations/-/instances/chatapp-28b1a-default-rtdb {"name":"projects/840558334655/locations/asia-southeast1/instances/chatapp-28b1a-default-rtdb","project":"projects/840558334655","databaseUrl":"https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app","type":"DEFAULT_DATABASE","state":"ACTIVE"}
+[debug] [2026-11-18T05:21:06.769Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:21:06.769Z] Checked if tokens are valid: true, expires at: 1794980776895
+[debug] [2026-11-18T05:21:06.769Z] >>> [apiv2][query] PUT https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app/.settings/rules.json 
+[debug] [2026-11-18T05:21:06.769Z] >>> [apiv2][body] PUT https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app/.settings/rules.json "{\n  \"rules\": {\n    \"users\": {\n      \".read\": \"auth != null\",\n      \"$uid\": {\n        \".write\": \"auth != null && auth.uid === $uid\"\n      }\n    },\n    \"conversations\": {\n      \".read\": \"auth != null\",\n      \"$convId\": {\n        \".write\": \"auth != null\"\n      }\n    },\n    \"messages\": {\n      \"$convId\": {\n        \".read\": \"auth != null\",\n        \"$msgId\": {\n          \".write\": \"auth != null && (!data.exists() || (newData.child('recalled').val() === true ? data.child('senderId').val() === auth.uid : true))\",\n          \"reactions\": {\n            \"$uid\": {\n              \".write\": \"auth != null && auth.uid === $uid\"\n            }\n          }\n        }\n      }\n    },\n    \"userConversations\": {\n      \"$uid\": {\n        \".read\": \"auth != null && auth.uid === $uid\",\n        \"$convId\": {\n          \".write\": \"auth != null\"\n        }\n      }\n    },\n    \"userChats\": {\n      \"$uid\": {\n        \".read\": \"auth != null && auth.uid === $uid\",\n        \"$convId\": {\n          \".write\": \"auth != null\"\n        }\n      }\n    },\n    \"readStatus\": {\n      \"$convId\": {\n        \".read\": \"auth != null\",\n        \"$uid\": {\n          \".write\": \"auth != null && auth.uid === $uid\"\n        }\n      }\n    },\n    \"typing\": {\n      \"$convId\": {\n        \".read\": \"auth != null\",\n        \"$uid\": {\n          \".write\": \"auth != null && auth.uid === $uid\"\n        }\n      }\n    },\n    \"notifications\": {\n      \"$uid\": {\n        \".read\": \"auth != null && auth.uid === $uid\",\n        \"$notifId\": {\n          \".write\": \"auth != null\"\n        }\n      }\n    }\n  }\n}\n"
+[debug] [2026-11-18T05:21:07.161Z] <<< [apiv2][status] PUT https://chatapp-28b1a-default-rtdb.asia-southeast1.firebasedatabase.app/.settings/rules.json 200

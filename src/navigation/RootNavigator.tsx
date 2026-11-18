@@ -9,6 +9,7 @@ import { useAuth } from '../hooks/useAuth';
 import AuthNavigator from './AuthNavigator';
 import MainNavigator from './MainNavigator';
 import ChatScreen from '../screens/ChatScreen';
+import CreateGroupScreen from '../screens/CreateGroupScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -32,6 +33,7 @@ export default function RootNavigator() {
           <>
             <Stack.Screen name="Main" component={MainNavigator} />
             <Stack.Screen name="Chat" component={ChatScreen} />
+            <Stack.Screen name="CreateGroup" component={CreateGroupScreen} />
           </>
         )}
       </Stack.Navigator>
@@ -47,4 +49,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-

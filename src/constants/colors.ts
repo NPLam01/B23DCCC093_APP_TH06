@@ -10,6 +10,7 @@ export const Colors = {
   online: '#22C55E',
   offline: '#6B7280',
   error: '#EF4444',
+  danger: '#EF4444',
   white: '#FFFFFF',
   transparent: 'transparent',
   card: '#131D2E',

@@ -33,9 +33,16 @@ export const useConversations = (currentUid?: string) => {
     if (!searchQuery.trim()) return conversations;
     const q = searchQuery.toLowerCase().trim();
     return conversations.filter(c => {
+      const groupName = c.name || '';
       const name = c.otherUser?.name || '';
       const email = c.otherUser?.email || '';
-      return name.toLowerCase().includes(q) || email.toLowerCase().includes(q);
+      const lastMsg = c.lastMessageText || '';
+      return (
+        groupName.toLowerCase().includes(q) ||
+        name.toLowerCase().includes(q) ||
+        email.toLowerCase().includes(q) ||
+        lastMsg.toLowerCase().includes(q)
+      );
     });
   }, [conversations, searchQuery]);
 

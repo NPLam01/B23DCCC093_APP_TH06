@@ -1,14 +1,5 @@
 {
   "projects": {
-    "default": "th5-1d909",
-    "dataconnect": "dataconnect-th5"
-  },
-  "targets": {
-    "dataconnect-th5": {
-      "dataconnect": {
-        "databaseId": "default"
-      }
-    }
+    "default": "chatapp-28b1a"
   }
 }
-

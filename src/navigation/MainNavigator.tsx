@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { View, Text, StyleSheet } from 'react-native';
 import AntDesign from '@react-native-vector-icons/ant-design';
@@ -6,6 +6,8 @@ import { MainTabParamList } from './types';
 import { Colors } from '../constants/colors';
 import { useAuth } from '../hooks/useAuth';
 import { useConversations } from '../hooks/useConversations';
+import { subscribeNotifications } from '../services/notificationService';
+import { AppNotification } from '../types';
 
 import HomeScreen from '../screens/HomeScreen';
 import ContactsScreen from '../screens/ContactsScreen';
@@ -37,6 +39,18 @@ function BadgeWrapper({ count, children }: { count: number; children: React.Reac
 export default function MainNavigator() {
   const { currentUser } = useAuth();
   const { totalUnread } = useConversations(currentUser?.uid);
+  const [unreadNotifsCount, setUnreadNotifsCount] = useState<number>(0);
+
+  useEffect(() => {
+    if (!currentUser?.uid) return;
+    const unsub = subscribeNotifications(currentUser.uid, (list: AppNotification[]) => {
+      const count = list.filter(n => !n.read).length;
+      setUnreadNotifsCount(count);
+    });
+    return () => {
+      unsub();
+    };
+  }, [currentUser?.uid]);
 
   return (
     <Tab.Navigator
@@ -52,6 +66,9 @@ export default function MainNavigator() {
 
           if (route.name === 'Home') {
             return <BadgeWrapper count={totalUnread}>{icon}</BadgeWrapper>;
+          }
+          if (route.name === 'Notifications') {
+            return <BadgeWrapper count={unreadNotifsCount}>{icon}</BadgeWrapper>;
           }
           return icon;
         },
@@ -117,4 +134,3 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 });
-

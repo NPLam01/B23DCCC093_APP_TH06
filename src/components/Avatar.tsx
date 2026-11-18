@@ -1,10 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { Colors } from '../constants/colors';
 import { getInitials, getColorForName } from '../utils/avatarHelper';
 
 interface AvatarProps {
   name?: string;
+  avatarUrl?: string;
   initials?: string;
   color?: string;
   size?: number;
@@ -14,6 +15,7 @@ interface AvatarProps {
 
 export default function Avatar({
   name,
+  avatarUrl,
   initials,
   color,
   size = 48,
@@ -26,20 +28,34 @@ export default function Avatar({
 
   return (
     <View style={{ width: size, height: size, position: 'relative' }}>
-      <View
-        style={[
-          styles.circle,
-          {
+      {avatarUrl ? (
+        <Image
+          source={{ uri: avatarUrl }}
+          style={{
             width: size,
             height: size,
             borderRadius: size / 2,
-            backgroundColor: bgColor,
-          },
-        ]}>
-        <Text style={[styles.initials, { fontSize: size * 0.38 }]}>
-          {displayInitials}
-        </Text>
-      </View>
+            backgroundColor: Colors.surfaceLight,
+          }}
+          resizeMode="cover"
+        />
+      ) : (
+        <View
+          style={[
+            styles.circle,
+            {
+              width: size,
+              height: size,
+              borderRadius: size / 2,
+              backgroundColor: bgColor,
+            },
+          ]}>
+          <Text style={[styles.initials, { fontSize: size * 0.38 }]}>
+            {displayInitials}
+          </Text>
+        </View>
+      )}
+
       {showOnline && (
         <View
           style={[
